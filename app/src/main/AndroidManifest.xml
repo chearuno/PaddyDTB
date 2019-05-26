@@ -2,22 +2,53 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.example.paddydtb">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.CAMERA2"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
     <application
             android:allowBackup="true"
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@mipmap/mainlogo"
             android:label="@string/app_name"
-            android:roundIcon="@mipmap/ic_launcher_round"
+            android:roundIcon="@mipmap/mainlogo"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity">
-        </activity>
-        <activity android:name=".MainActivity">
+        <activity
+                android:name=".SplashScreen"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity
+                android:name=".SignupActivity"
+                android:screenOrientation="portrait">
+        </activity>
+        <activity
+                android:name=".ResetPasswordActivity"
+                android:screenOrientation="portrait">
+        </activity>
+        <activity
+                android:name=".LoginActivity"
+                android:screenOrientation="portrait"/>
+
+        <provider
+                android:name="android.support.v4.content.FileProvider"
+                android:authorities="com.example.android.supportv4.my_files"
+                android:exported="false"
+                android:grantUriPermissions="true">
+            <meta-data
+                    android:name="android.support.FILE_PROVIDER_PATHS"
+                    android:resource="@xml/my_paths"/>
+        </provider>
+
+        <activity
+                android:name=".MainActivity"
+                android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

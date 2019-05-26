@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "367140152733",
+    "firebase_url": "https://paddydtb.firebaseio.com",
+    "project_id": "paddydtb",
+    "storage_bucket": "paddydtb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:367140152733:android:7926b1028b442038",
+        "android_client_info": {
+          "package_name": "com.example.paddydtb"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "367140152733-2utqglmc8qoi89h48aeioq1mcl97rg3v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.paddydtb",
+            "certificate_hash": "0f5453aa4e137c3de80ccb076b1e53277a151a94"
+          }
+        },
+        {
+          "client_id": "367140152733-c4quk3fb7jcghkhiq65aubq20609a6fu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2Oudp_0fk7NYQY2TuoYUz7S6YzCaTYbo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "367140152733-c4quk3fb7jcghkhiq65aubq20609a6fu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

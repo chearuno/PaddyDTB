@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
 import android.view.MenuItem
+import com.example.paddydtb.Fragments.Welcome
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,14 +34,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        title = "Mobile Portfolio"
+        title = "Paddy DTB"
         //get firebase auth instance
         auth = FirebaseAuth.getInstance()
         //get current user
         val user = FirebaseAuth.getInstance().currentUser
 
         mFragmentManager = supportFragmentManager
-        mFragmentTransaction = mFragmentManager.beginTransaction()
+        mFragmentTransaction = mFragmentManager!!.beginTransaction()
         mFragmentTransaction!!.replace(R.id.flContent, Welcome())
         mFragmentTransaction!!.commit()
 
@@ -53,7 +54,7 @@ class MainActivity : AppCompatActivity() {
 
         mDrawerlayout = findViewById(R.id.maindrawer)
         mtoggle = setupDrawerToggle()
-        mDrawerlayout.addDrawerListener(mtoggle!!)
+        mDrawerlayout?.addDrawerListener(mtoggle!!)
 
 
 //        super.onCreate(savedInstanceState);

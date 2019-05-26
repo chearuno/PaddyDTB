@@ -1,40 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.example.paddydtb">
+          xmlns:tools="http://schemas.android.com/tools" package="com.example.paddydtb">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.CAMERA2"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
+
     <application
             android:allowBackup="true"
+            android:hardwareAccelerated="false"
             android:icon="@mipmap/mainlogo"
             android:label="@string/app_name"
+            android:largeHeap="true"
             android:roundIcon="@mipmap/mainlogo"
+            android:screenOrientation="portrait"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity
-                android:name=".SplashScreen"
-                android:screenOrientation="portrait"
-                android:theme="@style/AppTheme.SplashTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-        <activity
-                android:name=".SignupActivity"
-                android:screenOrientation="portrait">
-        </activity>
-        <activity
-                android:name=".ResetPasswordActivity"
-                android:screenOrientation="portrait">
-        </activity>
-        <activity
                 android:name=".LoginActivity"
-                android:screenOrientation="portrait"/>
+                android:screenOrientation="portrait">
+
+        </activity>
 
         <provider
                 android:name="android.support.v4.content.FileProvider"
@@ -43,12 +31,28 @@
                 android:grantUriPermissions="true">
             <meta-data
                     android:name="android.support.FILE_PROVIDER_PATHS"
-                    android:resource="@xml/my_paths"/>
+                    android:resource="@xml/my_paths" />
         </provider>
 
         <activity
+                android:name=".ResetPasswordActivity"
+                android:screenOrientation="portrait"></activity>
+        <activity
+                android:name=".SignupActivity"
+                android:screenOrientation="portrait"></activity>
+        <activity
                 android:name=".MainActivity"
-                android:screenOrientation="portrait"/>
+                android:screenOrientation="portrait"></activity>
+        <activity
+                android:name=".SplashScreen"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

@@ -4,13 +4,11 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
-    <item android:id="@+id/browse" android:title="Browse" android:icon="@drawable/alerter_ic_notifications"/>
-    <item android:id="@+id/addupload" android:title="Add / Upload" android:icon="@drawable/alerter_ic_notifications"/>
-    <item android:id="@+id/myarts" android:title="My Arts" android:icon="@drawable/alerter_ic_notifications"/>
-    <item android:id="@+id/profile" android:title="Profile" android:icon="@drawable/alerter_ic_notifications"/>
-    <item android:id="@+id/catogery" android:title="Catogary" android:icon="@drawable/alerter_ic_notifications"/>
+    <item android:id="@+id/find_screen" android:title="Find Now" android:icon="@drawable/search_icon"/>
+    <item android:id="@+id/details_screen" android:title="More Details" android:icon="@drawable/details_icon"/>
+    <item android:id="@+id/chat_screen" android:title="Chat With AI" android:icon="@drawable/chat_icon"/>
+    <item android:id="@+id/profile_screen" android:title="Profile" android:icon="@drawable/profile_icon"/>
 
     </group>
-
 
 </menu>

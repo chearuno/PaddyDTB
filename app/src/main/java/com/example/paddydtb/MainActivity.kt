@@ -11,11 +11,15 @@ import android.support.v7.widget.Toolbar
 import android.widget.ProgressBar
 import com.google.firebase.auth.FirebaseAuth
 import android.support.design.widget.NavigationView
-import android.support.v4.app.Fragment
+import android.support.v4.view.GravityCompat
 import android.view.MenuItem
-import com.example.paddydtb.Fragments.Welcome
+import com.example.paddydtb.Fragments.ChatAI
+import com.example.paddydtb.Fragments.Details
+import com.example.paddydtb.Fragments.Profile
+import com.example.paddydtb.Fragments.FindNow
+import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
 
     private var mDrawerlayout: DrawerLayout? = null
@@ -42,14 +46,14 @@ class MainActivity : AppCompatActivity() {
 
         mFragmentManager = supportFragmentManager
         mFragmentTransaction = mFragmentManager!!.beginTransaction()
-        mFragmentTransaction!!.replace(R.id.flContent, Welcome())
+        mFragmentTransaction!!.replace(R.id.flContent, FindNow())
         mFragmentTransaction!!.commit()
 
         mToolbar = findViewById(R.id.toolbar) as Toolbar
         setSupportActionBar(mToolbar)
 
-        nvDrawer = findViewById(R.id.nvView) as NavigationView
-        setupDrawerContent(nvDrawer!!)
+//        nvDrawer = findViewById(R.id.nvView) as NavigationView
+//        setupDrawerContent(nvDrawer!!)
 
 
         mDrawerlayout = findViewById(R.id.maindrawer)
@@ -115,20 +119,51 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item);
     }
 */
+override fun onNavigationItemSelected(item: MenuItem): Boolean {
+    // Handle navigation view item clicks here.
+    loadView(item.itemId)
 
+    maindrawer.closeDrawer(GravityCompat.START)
+    return true
+}
+
+    private fun loadView(id: Int) {
+
+        val fragment = when (id) {
+            R.id.find_screen -> {
+                FindNow()
+            }
+            R.id.details_screen -> {
+                Details()
+            }
+            R.id.chat_screen -> {
+                ChatAI()
+            }
+            R.id.profile_screen -> {
+                Profile()
+            }
+
+            else -> {
+                FindNow()
+            }
+        }
+
+        supportFragmentManager.beginTransaction().replace(R.id.relativeLayout, fragment).addToBackStack(null).commit()
+    }
+/*
     private fun setupDrawerContent(navigationView: NavigationView) {
         navigationView.setNavigationItemSelectedListener { menuItem ->
-           // selectDrawerItem(menuItem)
+            selectDrawerItem(menuItem)
             true
         }
 
 
     }
 
-//    private void selectDrawerItem(MenuItem menuItem)
-//    {
-//        var fragment: Fragment? = null
-//        var fragmentClass: Class<*>? = null
+    private fun selectDrawerItem(String: menuItem)
+    {
+        var fragment: Fragment? = null
+        var fragmentClass: Class<*>? = null
 //        when (menuItem.getItemId()) {
 //            R.id.browse -> fragmentClass = Browse::class.java
 //            R.id.addupload -> fragmentClass = Add::class.java
@@ -139,25 +174,26 @@ class MainActivity : AppCompatActivity() {
 //
 //            else -> fragmentClass = Browse::class.java
 //        }
-//
-//        try {
-//            fragment = fragmentClass!!.newInstance() as Fragment
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//        }
-//
-//
-//        // Insert the fragment by replacing any existing fragment
-//        val fragmentManager = supportFragmentManager
-//        // fragmentManager.popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-//        fragmentManager.beginTransaction().replace(R.id.flContent, fragment!!).addToBackStack(null).commit()
-//
-//        // Highlight the selected item has been done by NavigationView
-//        menuItem.setChecked(true)
-//        // Set action bar title
-//        setTitle(menuItem.getTitle())
-//        // Close the navigation drawer
-//        mDrawerlayout.closeDrawers()
-//
-//    }
+
+        try {
+            fragment = fragmentClass!!.newInstance() as Fragment
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+
+        // Insert the fragment by replacing any existing fragment
+        val fragmentManager = supportFragmentManager
+        // fragmentManager.popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment!!).addToBackStack(null).commit()
+
+        // Highlight the selected item has been done by NavigationView
+        menuItem.setChecked(true)
+        // Set action bar title
+        setTitle(menuItem.getTitle())
+        // Close the navigation drawer
+        mDrawerlayout!!.closeDrawers()
+
+    }
+*/
 }

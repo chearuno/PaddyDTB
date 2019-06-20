@@ -4,34 +4,41 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               tools:context=".Fragments.FindNow"
-              android:orientation="vertical">
+              android:orientation="vertical"
+              android:background="@drawable/bg">
 
-    <!-- TODO: Update blank fragment layout -->
     <ImageView
             android:layout_width="match_parent"
-            android:layout_height="300dp" tools:src="@tools:sample/avatars[0]" android:id="@+id/imageView2"
+            android:layout_height="179dp" android:id="@+id/imageView2"
             android:layout_marginStart="20dp" android:layout_marginLeft="20dp"
-            android:layout_marginTop="40dp" android:layout_marginEnd="20dp"/>
+            android:layout_marginTop="40dp" android:layout_marginEnd="20dp" tools:src="@mipmap/mainlogo"/>
     <Button
-            android:text="Capuure Now"
+            android:textColor="#fff"
+            android:background="@xml/buttonstyle"
+            android:text="Capture Now"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp" android:layout_marginStart="20dp" android:layout_marginLeft="20dp"
             android:layout_marginEnd="20dp" android:layout_marginRight="20dp" android:layout_marginBottom="20dp"
-            android:id="@+id/button_capure_now"/>
+            android:id="@+id/button_capure_now" style="@style/Widget.AppCompat.Button"/>
 
     <Button
+            android:textColor="#fff"
+            android:background="@xml/buttonstyle_three"
             android:text="Identify Image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp" android:layout_marginStart="20dp" android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp" android:layout_marginLeft="20dp"
             android:layout_marginEnd="20dp" android:layout_marginRight="20dp" android:layout_marginBottom="20dp"
             android:id="@+id/button_upload"/>
     <Button
+            android:textColor="#fff"
+            android:background="@xml/buttonstyle_two"
             android:text="Identify Image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp" android:layout_marginStart="20dp" android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp" android:layout_marginLeft="20dp"
             android:layout_marginEnd="20dp" android:layout_marginRight="20dp" android:layout_marginBottom="20dp"
             android:id="@+id/button_live"/>
+
 </LinearLayout>

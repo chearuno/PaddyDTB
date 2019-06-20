@@ -5,6 +5,7 @@
     <color name="colorAccent">#428bca</color>
 
     <color name="errorMessageRed">#ff0000</color>
+    <color name="ButtonColour">#4bb6ef</color>
 
     <color name="bg_login">#FFFFFF</color>
     <color name="bg_register">#2E3237</color>

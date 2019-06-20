@@ -10,7 +10,6 @@ import com.example.paddydtb.LoginActivity
 import com.example.paddydtb.R
 import com.google.firebase.auth.FirebaseAuth
 import com.tapadoo.alerter.Alerter
-import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
 
 class Profile : Fragment() {
@@ -28,8 +27,8 @@ class Profile : Fragment() {
         //get current user
         val user = FirebaseAuth.getInstance().currentUser
         if (user != null) {
-            view.profile_name.setText(user.displayName)
-            view.profile_email.setText(user.email)
+            view.textView_profile_name.setText(user.displayName)
+            view.textView_profile_email.setText(user.email)
         }
         mAuthListner = FirebaseAuth.AuthStateListener { firebaseAuth ->
             val user = firebaseAuth.currentUser

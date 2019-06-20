@@ -45,7 +45,7 @@ class LoginActivity : AppCompatActivity() {
             val user = firebaseAuth.currentUser
             if (user != null) {
                 // User is signed in
-                Log.d(TAG, "onAuthStateChanged:signed_in:" + user!!.uid)
+                Log.d(TAG, "onAuthStateChanged:signed_in:" + user.uid)
             } else {
                 // User is signed out
                 Log.d(TAG, "onAuthStateChanged:signed_out")
@@ -53,7 +53,7 @@ class LoginActivity : AppCompatActivity() {
             // ...
         }
 
-        if (mAuth?.getCurrentUser() != null) {
+        if (mAuth.getCurrentUser() != null) {
             startActivity(Intent(this@LoginActivity, MainActivity::class.java))
             finish()
         }
@@ -124,7 +124,7 @@ class LoginActivity : AppCompatActivity() {
 
     public override fun onStart() {
         super.onStart()
-        val currentUser = mAuth.getCurrentUser()
+       // val currentUser = mAuth.getCurrentUser()
     }
 
     private fun signIn() {

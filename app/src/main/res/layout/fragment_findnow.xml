@@ -9,9 +9,10 @@
 
     <ImageView
             android:layout_width="match_parent"
-            android:layout_height="179dp" android:id="@+id/imageView2"
+            android:layout_height="208dp" android:id="@+id/imageView2"
             android:layout_marginStart="20dp" android:layout_marginLeft="20dp"
-            android:layout_marginTop="40dp" android:layout_marginEnd="20dp" tools:src="@mipmap/mainlogo"/>
+            android:layout_marginTop="40dp" android:layout_marginEnd="20dp"
+            app:srcCompat="@mipmap/mainlogo"/>
     <Button
             android:textColor="#fff"
             android:background="@xml/buttonstyle"
@@ -25,16 +26,16 @@
     <Button
             android:textColor="#fff"
             android:background="@xml/buttonstyle_three"
-            android:text="Identify Image"
+            android:text="Select From Gallery"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp" android:layout_marginLeft="20dp"
             android:layout_marginEnd="20dp" android:layout_marginRight="20dp" android:layout_marginBottom="20dp"
-            android:id="@+id/button_upload"/>
+            android:id="@+id/button_select"/>
     <Button
             android:textColor="#fff"
             android:background="@xml/buttonstyle_two"
-            android:text="Identify Image"
+            android:text="Live Feed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp" android:layout_marginLeft="20dp"

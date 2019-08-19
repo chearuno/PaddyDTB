@@ -2,6 +2,7 @@ package com.example.paddydtb.Fragments
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -13,11 +14,14 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.example.paddydtb.R
+import kotlinx.android.synthetic.main.fragment_findnow.*
 import kotlinx.android.synthetic.main.fragment_findnow.view.*
+import kotlinx.android.synthetic.main.fragment_findnow.view.imageView2
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class FindNow : Fragment() {
     private val TAG = "Camera"
@@ -36,13 +40,10 @@ class FindNow : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view: View =  inflater.inflate(R.layout.fragment_findnow, container, false)
+        val view: View = inflater.inflate(com.example.paddydtb.R.layout.fragment_findnow, container, false)
 
         view.button_capure_now.setOnClickListener {
             dispatchTakePictureIntent()
-            val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            //  if (cameraIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(cameraIntent, CAMERA_REQUEST)
         }
 
         view.button_select.setOnClickListener {
@@ -64,46 +65,65 @@ class FindNow : Fragment() {
             && data != null && data.data != null
         ) {
             filePath = data.data
+            val stringUri: String
+            stringUri = filePath.toString()
             try {
-                val bitmap = MediaStore.Images.Media.getBitmap(activity!!.contentResolver, filePath)
+
+                val arguments = Bundle()
+                arguments.putString("FilePath", stringUri)
+
+                val tempFragment = Identification()
+                tempFragment.arguments = arguments
+
+                fragmentManager!!.beginTransaction().replace(R.id.flContent, tempFragment).addToBackStack(null).commit()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        } else if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
+
+            try {
+
+                val bitmap = MediaStore.Images.Media.getBitmap(activity!!.contentResolver, Uri.parse(mCurrentPhotoPath))
                 //image_main.setImageBitmap(bitmap)
-                fragmentManager!!.beginTransaction().replace(R.id.flContent, Identification()).addToBackStack(null).commit()
+
+                val arguments = Bundle()
+                arguments.putString("FilePath", mCurrentPhotoPath)
+
+                val tempFragment = Identification()
+                tempFragment.arguments = arguments
+
+                fragmentManager!!.beginTransaction().replace(R.id.flContent, tempFragment).addToBackStack(null).commit()
             } catch (e: IOException) {
                 e.printStackTrace()
             }
 
         }
 
-
     }
 
+
     private fun dispatchTakePictureIntent() {
-        Log.i(TAG, "dispatchTakePictureIntent entered: ")
-        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(activity!!.packageManager) != null) {
+
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        if (cameraIntent.resolveActivity(activity!!.packageManager) != null) {
             // Create the File where the photo should go
             var photoFile: File? = null
             try {
                 photoFile = createImageFile()
             } catch (ex: IOException) {
                 // Error occurred while creating the File
-                Log.i(TAG, "IOException: $ex")
+                Log.i(TAG, "IOException")
             }
 
             // Continue only if the File was successfully created
             if (photoFile != null) {
-                takePictureIntent.putExtra(
-                    MediaStore.EXTRA_OUTPUT,
-                    Uri.fromFile(photoFile)
-                )
-                Log.i(TAG, "Got here: " + Uri.fromFile(photoFile))
-                // startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-                Log.i(TAG, "Picture successfully saved: $takePictureIntent")
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile))
+                startActivityForResult(cameraIntent, CAMERA_REQUEST)
             }
         }
-        activity
+
     }
+
     @Throws(IOException::class)
     private fun createImageFile(): File {
         // Create an image file name

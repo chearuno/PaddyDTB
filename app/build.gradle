@@ -20,6 +20,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    android {
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
+    }
 }
 
 dependencies {
@@ -40,6 +46,8 @@ dependencies {
     implementation 'com.nabinbhandari.android:permissions:3.8'
     implementation 'com.tapadoo.android:alerter:3.0.0'
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
+    implementation 'com.squareup.okhttp3:okhttp:3.14.0'
+    implementation 'com.kaopiz:kprogresshud:1.2.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

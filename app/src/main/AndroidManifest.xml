@@ -3,7 +3,7 @@
           xmlns:tools="http://schemas.android.com/tools" package="com.example.paddydtb">
 
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.CAMERA2"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
@@ -26,12 +26,14 @@
 
         <provider
                 android:name="android.support.v4.content.FileProvider"
-                android:authorities="com.example.android.supportv4.my_files"
+                android:authorities="${applicationId}.provider"
                 android:exported="false"
-                android:grantUriPermissions="true">
+                android:grantUriPermissions="true"
+                tools:replace="android:authorities">
             <meta-data
                     android:name="android.support.FILE_PROVIDER_PATHS"
-                    android:resource="@xml/my_paths" />
+                    android:resource="@xml/provider_paths"
+                    tools:replace="android:resource"/>
         </provider>
 
         <activity

@@ -1,30 +1,45 @@
 package com.example.paddydtb.Fragments
 
+import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
+import android.support.v4.content.FileProvider
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import com.example.paddydtb.BuildConfig
 
-import com.example.paddydtb.R
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_findnow.view.*
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
+
+
+
 class FindNow : Fragment() {
+
     private val TAG = "Camera"
     private val CAMERA_REQUEST = 1
     internal lateinit var mCurrentPhotoPath: String
     private val RESULT_LOAD_IMAGE = 1
     private var filePath: Uri? = null
+    private var photoFile: File? = null
+    var completedProcessImagePath = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,13 +51,10 @@ class FindNow : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view: View =  inflater.inflate(R.layout.fragment_findnow, container, false)
+        val view: View = inflater.inflate(com.example.paddydtb.R.layout.fragment_findnow, container, false)
 
         view.button_capure_now.setOnClickListener {
             dispatchTakePictureIntent()
-            val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            //  if (cameraIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(cameraIntent, CAMERA_REQUEST)
         }
 
         view.button_identify.setOnClickListener {
@@ -57,6 +69,20 @@ class FindNow : Fragment() {
         return view
     }
 
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
+
+
+                Picasso.get().load("file:" + photoFile!!.getAbsolutePath()).fit().centerInside().into(view!!.imageViewtestsss);
+            Log.e("Capture Image Bug:", "OKKK")
+            }
+
+    }
+
+/*
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -64,46 +90,86 @@ class FindNow : Fragment() {
             && data != null && data.data != null
         ) {
             filePath = data.data
+            val stringUri: String
+            stringUri = filePath.toString()
             try {
-                val bitmap = MediaStore.Images.Media.getBitmap(activity!!.contentResolver, filePath)
+
+                val arguments = Bundle()
+                arguments.putString("FilePath", stringUri)
+
+                val tempFragment = Identification()
+                tempFragment.arguments = arguments
+
+                fragmentManager!!.beginTransaction().replace(R.id.flContent, tempFragment).addToBackStack(null).commit()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        } else if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
+
+            try {
+
+                val bitmap = MediaStore.Images.Media.getBitmap(activity!!.contentResolver, Uri.parse(mCurrentPhotoPath))
                 //image_main.setImageBitmap(bitmap)
-                fragmentManager!!.beginTransaction().replace(R.id.flContent, Identification()).addToBackStack(null).commit()
+
+                val arguments = Bundle()
+                arguments.putString("FilePath", mCurrentPhotoPath)
+
+                val tempFragment = Identification()
+                tempFragment.arguments = arguments
+
+                fragmentManager!!.beginTransaction().replace(R.id.flContent, tempFragment).addToBackStack(null).commit()
             } catch (e: IOException) {
                 e.printStackTrace()
             }
 
         }
 
+    }
+*/
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        if (requestCode == 0) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                dispatchTakePictureIntent()
+            }
+        }
 
     }
 
     private fun dispatchTakePictureIntent() {
-        Log.i(TAG, "dispatchTakePictureIntent entered: ")
-        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(activity!!.packageManager) != null) {
-            // Create the File where the photo should go
-            var photoFile: File? = null
-            try {
-                photoFile = createImageFile()
-            } catch (ex: IOException) {
-                // Error occurred while creating the File
-                Log.i(TAG, "IOException: $ex")
-            }
-
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-                takePictureIntent.putExtra(
-                    MediaStore.EXTRA_OUTPUT,
-                    Uri.fromFile(photoFile)
-                )
-                Log.i(TAG, "Got here: " + Uri.fromFile(photoFile))
-                // startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-                Log.i(TAG, "Picture successfully saved: $takePictureIntent")
+        if (ContextCompat.checkSelfPermission(context!!, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(activity!!, arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE), 0)
+            //Toast.makeText(activity, "Please allow camera access to take the photo", Toast.LENGTH_LONG).show()
+//            Util.alertDialog("Alert!","Please allow camera access to take the photo",context)
+        } else {
+            val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            if (cameraIntent.resolveActivity(activity!!.packageManager) != null) {
+                try {
+                    photoFile = createImageFile()
+                    completedProcessImagePath = photoFile!!.getAbsolutePath()
+                    // Continue only if the File was successfully createdx
+                    val authority = BuildConfig.APPLICATION_ID + ".provider"
+                    if (photoFile != null) {
+                        var photoURI = FileProvider.getUriForFile(
+                            context!!,
+                            authority,
+                            photoFile!!
+                        )
+                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                        startActivityForResult(cameraIntent, CAMERA_REQUEST)
+                    }
+                } catch (ex: Exception) {
+                    // Error occurred while creating the File
+                    displayMessage(context!!, "Capture Image Bug: " + ex.message.toString())
+                    Log.e("Capture Image Bug:", ex.message.toString())
+                }
             }
         }
-        activity
     }
+    private fun displayMessage(context: Context, message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+    }
+
     @Throws(IOException::class)
     private fun createImageFile(): File {
         // Create an image file name

@@ -9,7 +9,7 @@
 
     <ImageView
             android:layout_width="match_parent"
-            android:layout_height="208dp" android:id="@+id/imageView2"
+            android:layout_height="208dp" android:id="@+id/imageViewtestsss"
             android:layout_marginStart="20dp" android:layout_marginLeft="20dp"
             android:layout_marginTop="40dp" android:layout_marginEnd="20dp"
             app:srcCompat="@mipmap/mainlogo"/>

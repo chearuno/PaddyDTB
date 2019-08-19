@@ -20,6 +20,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.example.paddydtb.BuildConfig
+import com.example.paddydtb.R
 
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_findnow.view.*
@@ -69,7 +70,7 @@ class FindNow : Fragment() {
         return view
     }
 
-
+/*
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -82,7 +83,7 @@ class FindNow : Fragment() {
 
     }
 
-/*
+*/
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -125,7 +126,7 @@ class FindNow : Fragment() {
         }
 
     }
-*/
+
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         if (requestCode == 0) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED

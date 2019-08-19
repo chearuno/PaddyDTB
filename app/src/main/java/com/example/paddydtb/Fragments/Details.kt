@@ -11,7 +11,10 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.example.paddydtb.R
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.fragment_details.*
 import kotlinx.android.synthetic.main.fragment_details.view.*
+import kotlinx.android.synthetic.main.fragment_details.view.myWebView
 
 class Details : Fragment() {
 
@@ -40,8 +43,10 @@ class Details : Fragment() {
                     )
                 );
             } else {
-                view.detailsBody.setText(Html.fromHtml(bodyItem));
+               // view.detailsBody.setText(Html.fromHtml(bodyItem));
             }
+            Picasso.get().load("http://192.168.1.103:5000/static/tfOutput.jpg").fit().centerInside().into(view.imageDetection)
+            view.myWebView.loadData(bodyItem, "text/html", "UTF-8");
         }
 
         return view

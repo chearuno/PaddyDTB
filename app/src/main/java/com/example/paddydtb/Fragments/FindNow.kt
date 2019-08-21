@@ -13,7 +13,6 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.FileProvider
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -21,15 +20,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.example.paddydtb.BuildConfig
 import com.example.paddydtb.R
-
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_findnow.view.*
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
-
-
 
 
 class FindNow : Fragment() {
@@ -70,20 +65,6 @@ class FindNow : Fragment() {
         return view
     }
 
-/*
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
-
-
-                Picasso.get().load("file:" + photoFile!!.getAbsolutePath()).fit().centerInside().into(view!!.imageViewtestsss);
-            Log.e("Capture Image Bug:", "OKKK")
-            }
-
-    }
-
-*/
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -130,7 +111,8 @@ class FindNow : Fragment() {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         if (requestCode == 0) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
-                && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                && grantResults[1] == PackageManager.PERMISSION_GRANTED
+            ) {
                 dispatchTakePictureIntent()
             }
         }
@@ -138,8 +120,16 @@ class FindNow : Fragment() {
     }
 
     private fun dispatchTakePictureIntent() {
-        if (ContextCompat.checkSelfPermission(context!!, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(activity!!, arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE), 0)
+        if (ContextCompat.checkSelfPermission(
+                context!!,
+                Manifest.permission.CAMERA
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                activity!!,
+                arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                0
+            )
             //Toast.makeText(activity, "Please allow camera access to take the photo", Toast.LENGTH_LONG).show()
 //            Util.alertDialog("Alert!","Please allow camera access to take the photo",context)
         } else {
@@ -167,6 +157,7 @@ class FindNow : Fragment() {
             }
         }
     }
+
     private fun displayMessage(context: Context, message: String) {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }

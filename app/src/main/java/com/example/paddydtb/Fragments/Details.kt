@@ -1,7 +1,6 @@
 package com.example.paddydtb.Fragments
 
-import android.content.Context
-import android.net.Uri
+
 import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -9,12 +8,10 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import com.example.paddydtb.R
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.fragment_details.*
 import kotlinx.android.synthetic.main.fragment_details.view.*
-import kotlinx.android.synthetic.main.fragment_details.view.myWebView
+
 
 class Details : Fragment() {
 
@@ -45,8 +42,18 @@ class Details : Fragment() {
             } else {
                // view.detailsBody.setText(Html.fromHtml(bodyItem));
             }
-            Picasso.get().load("http://192.168.1.103:5000/static/tfOutput.jpg").fit().centerInside().into(view.imageDetection)
+            Picasso.get().load("http://192.168.1.103:5000/static/tfOutput.jpg").fit().centerInside().into(view.imageDetected)
             view.myWebView.loadData(bodyItem, "text/html", "UTF-8");
+        }
+
+        view.imageDetected.setOnClickListener {
+            val fm = activity!!.getSupportFragmentManager()
+            val bundle = Bundle()
+            bundle.putString("imageURI", "http://192.168.1.103:5000/static/tfOutput.jpg")
+            val addFragment = FullScreen()
+            addFragment.arguments = bundle
+            fm.beginTransaction().replace(R.id.flContent, addFragment).addToBackStack(null).commit()
+
         }
 
         return view

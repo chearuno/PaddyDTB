@@ -10,17 +10,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.bogdwellers.pinchtozoom.ImageMatrixTouchHandler
 import com.example.paddydtb.R
 import com.example.paddydtb.Utils.WebService
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
-import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.OnProgressListener
 import com.google.firebase.storage.StorageReference
-import com.google.firebase.storage.UploadTask
 import com.kaopiz.kprogresshud.KProgressHUD
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_identification.view.*

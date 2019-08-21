@@ -16,8 +16,8 @@ object WebService {
     val INVALID_RESPONSE = "An Invalid Response Received."
 
     public fun sendImage(
-        context: Context,
-        onCompletion: (status: Boolean,  message: String,  body: String) -> Unit
+        context: Context, urlImage: String,
+        onCompletion: (status: Boolean, message: String, body: String) -> Unit
     ) {
 
         val json = MediaType.get("application/json; charset=utf-8")
@@ -30,8 +30,7 @@ object WebService {
         val jsonObject1 = JSONObject()
         try {
             jsonObject1.put(
-                "img_url",
-                "https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg"
+                "img_url", urlImage
             )
 
         } catch (e: JSONException) {
@@ -52,37 +51,37 @@ object WebService {
             override fun onFailure(call: Call, e: IOException) {
                 Log.e("HttpService", "onFailure() Request was: $request")
                 e.printStackTrace()
-                onCompletion(false, NETWORK_ERROR,NETWORK_ERROR)
+                onCompletion(false, NETWORK_ERROR, NETWORK_ERROR)
             }
 
             @Throws(IOException::class)
             override fun onResponse(call: Call, response: Response) {
                 try {
 
-                    Log.e("HttpService","--> "+response)
+                    Log.e("HttpService", "--> " + response)
                     if (response.code() == 200) {
                         Log.e("HttpService", "Success")
                         val jsonData = response.body()?.string()
                         Log.e("HttpService", jsonData)
                         //val jsonResponseArray = JSONArray(jsonData)
-                       // Log.e("HttpService", jsonResponseArray.toString())
+                        // Log.e("HttpService", jsonResponseArray.toString())
                         if (jsonData != null) {
-                            onCompletion(true, "SUCCESS",jsonData)
+                            onCompletion(true, "SUCCESS", jsonData)
                         }
 
                     } else {
                         Log.e("HttpService", "!200")
                         val jsonData = response.body()?.string()
                         Log.e("HttpService", jsonData)
-                       // val jsonResponseObject = JSONObject(jsonData)
+                        // val jsonResponseObject = JSONObject(jsonData)
                         if (jsonData != null) {
-                            onCompletion(false,"error",jsonData)
+                            onCompletion(false, "error", jsonData)
                         }
 
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    onCompletion(false,  INVALID_RESPONSE,INVALID_RESPONSE)
+                    onCompletion(false, INVALID_RESPONSE, INVALID_RESPONSE)
                 }
 
             }

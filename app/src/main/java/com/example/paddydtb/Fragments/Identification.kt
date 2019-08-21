@@ -5,10 +5,12 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.bogdwellers.pinchtozoom.ImageMatrixTouchHandler
 import com.example.paddydtb.R
 import com.example.paddydtb.Utils.WebService
 import com.google.android.gms.tasks.OnFailureListener
@@ -65,12 +67,13 @@ class Identification : Fragment() {
         } catch (e: IOException) {
             e.printStackTrace()
         }
-//        ImageViewer.Builder(this, view.imageDetection)
-//
-//            .hideStatusBar(false)
-//            .allowZooming(true)
-//            .allowSwipeToDismiss(true)
-//            .show()
+
+        view.imageDetection.setOnClickListener {
+
+
+        }
+
+
         view.button_identify.setOnClickListener {
 
 
@@ -80,64 +83,71 @@ class Identification : Fragment() {
             progressDialog.setCancelable(false)
 
 
-
             val imageId = UUID.randomUUID().toString()
+            val imagename = imageId + ".jpg"
 
-            val ref = storageReference.child("images/$imageId")
-            ref.putFile(uri).addOnSuccessListener(OnSuccessListener<UploadTask.TaskSnapshot> {
+            val ref = storageReference.child("images/$imagename")
 
 
-                //on
-
-                progressDialog.dismiss()
-                Toast.makeText(activity, "Image Uploaded", Toast.LENGTH_SHORT).show()
-
-             //   uri = null
-            })
-                .addOnFailureListener(OnFailureListener { e ->
+            ref.putFile(uri).addOnSuccessListener {
+                ref.downloadUrl.addOnSuccessListener { uri ->
+                    Log.e(
+                        "URL",
+                        "onSuccess: uri= $uri"
+                    )
+                    progressDialog.dismiss()
+                    Toast.makeText(activity, "Image Uploaded", Toast.LENGTH_SHORT).show()
+                    detectImage(uri.toString())
+                }
+            }
+                .addOnFailureListener { e ->
                     progressDialog.dismiss()
                     Toast.makeText(activity, "Image Upload Failed " + e.message, Toast.LENGTH_SHORT).show()
-                })
-                .addOnProgressListener(OnProgressListener<UploadTask.TaskSnapshot> { taskSnapshot ->
+                }
+                .addOnProgressListener { taskSnapshot ->
                     val progress = 100.0 * taskSnapshot.bytesTransferred / taskSnapshot
                         .totalByteCount
                     progressDialog.setMessage("Uploading..  " + progress.toInt() + "%")
-                })
-
-
-
-
-/*
-
-
-            activity?.runOnUiThread {
-                if (kProgressHUD != null) {
-                    if (!kProgressHUD!!.isShowing) {
-                        kProgressHUD!!.show();
-                    }
                 }
-                WebService.sendImage(context!!) { status, message, body ->
-
-                    if (status) {
-                        if (kProgressHUD != null) {
-                            if (kProgressHUD!!.isShowing) {
-                                kProgressHUD!!.dismiss()
-                            }
-                        }
-                        val jsonData = body
-                        val arguments = Bundle()
-                        arguments.putString("BodyItems", body)
-                        val tempFragment = Details()
-                        tempFragment.arguments = arguments
-
-                        fragmentManager!!.beginTransaction().replace(R.id.flContent, tempFragment).addToBackStack(null)
-                            .commit()
-                    }
-                }
-            }
-              */
         }
         return view
+    }
+
+    private fun detectImage(urlImage: String) {
+        activity?.runOnUiThread {
+            if (kProgressHUD != null) {
+                if (!kProgressHUD!!.isShowing) {
+                    kProgressHUD!!.show();
+                }
+            }
+            WebService.sendImage(context!!, urlImage) { status, message, body ->
+
+                if (status) {
+                    if (kProgressHUD != null) {
+                        if (kProgressHUD!!.isShowing) {
+                            kProgressHUD!!.dismiss()
+                        }
+                    }
+                    // val jsonData = body
+                    val arguments = Bundle()
+                    arguments.putString("BodyItems", body)
+                    val tempFragment = Details()
+                    tempFragment.arguments = arguments
+
+                    fragmentManager!!.beginTransaction().replace(R.id.flContent, tempFragment)
+                        .addToBackStack(null)
+                        .commit()
+                } else {
+                    if (kProgressHUD != null) {
+                        if (kProgressHUD!!.isShowing) {
+                            kProgressHUD!!.dismiss()
+                        }
+                    }
+                    Toast.makeText(activity, "Something Went Wrong. Please Try again", Toast.LENGTH_SHORT).show()
+                }
+
+            }
+        }
     }
 
 

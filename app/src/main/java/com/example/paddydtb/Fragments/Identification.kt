@@ -23,7 +23,6 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import com.kaopiz.kprogresshud.KProgressHUD
 import com.squareup.picasso.Picasso
-import com.stfalcon.frescoimageviewer.ImageViewer
 import kotlinx.android.synthetic.main.fragment_identification.view.*
 import java.io.IOException
 import java.util.*
@@ -69,7 +68,12 @@ class Identification : Fragment() {
         }
 
         view.imageDetection.setOnClickListener {
-
+            val fm = activity!!.getSupportFragmentManager()
+            val bundle = Bundle()
+            bundle.putString("imageURI", imgPath)
+            val addFragment = FullScreen()
+            addFragment.arguments = bundle
+            fm.beginTransaction().replace(R.id.flContent, addFragment).addToBackStack(null).commit()
 
         }
 

@@ -141,7 +141,11 @@ class Identification : Fragment() {
                             kProgressHUD!!.dismiss()
                         }
                     }
-                    Toast.makeText(activity, "Something Went Wrong. Please Try again", Toast.LENGTH_SHORT).show()
+
+                    activity!!.runOnUiThread(Runnable {
+                        Toast.makeText(activity, "Something Went Wrong. Please Try again", Toast.LENGTH_SHORT).show()
+                    })
+
                 }
 
             }

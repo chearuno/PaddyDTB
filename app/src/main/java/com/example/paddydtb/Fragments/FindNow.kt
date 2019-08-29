@@ -20,6 +20,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.example.paddydtb.BuildConfig
 import com.example.paddydtb.R
+import com.example.paddydtb.CameraActivity
 import kotlinx.android.synthetic.main.fragment_findnow.view.*
 import java.io.File
 import java.io.IOException
@@ -60,6 +61,11 @@ class FindNow : Fragment() {
             )
 
             startActivityForResult(i, RESULT_LOAD_IMAGE)
+        }
+        view.button_live.setOnClickListener {
+            val intent = Intent(activity, CameraActivity::class.java)
+            startActivity(intent)
+
         }
 
         return view

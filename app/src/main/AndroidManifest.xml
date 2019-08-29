@@ -46,6 +46,9 @@
                 android:name=".MainActivity"
                 android:screenOrientation="portrait"></activity>
         <activity
+                android:name=".CameraActivity">
+               </activity>
+        <activity
                 android:name=".SplashScreen"
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.SplashTheme">

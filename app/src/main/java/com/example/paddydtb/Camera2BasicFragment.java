@@ -329,7 +329,7 @@ public class Camera2BasicFragment extends Fragment
      */
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
-        textureView = (AutoFitTextureView) view.findViewById(R.id.texture);
+        textureView = (AutoFitTextureView) view.findViewById(R.id.texture1);
         textView = (TextView) view.findViewById(R.id.text);
     }
 

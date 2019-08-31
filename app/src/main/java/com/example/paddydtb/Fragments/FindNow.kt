@@ -63,7 +63,7 @@ class FindNow : Fragment() {
             startActivityForResult(i, RESULT_LOAD_IMAGE)
         }
         view.button_live.setOnClickListener {
-            val intent = Intent(activity, CameraActivity::class.java)
+            val intent = Intent(context, CameraActivity::class.java)
             startActivity(intent)
 
         }

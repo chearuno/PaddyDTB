@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.Html
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,19 +31,25 @@ class Details : Fragment() {
         val view: View = inflater.inflate(R.layout.fragment_details, container, false)
 
         if (arguments!!.getString("BodyItems") != null) {
-            val bodyItem = arguments!!.getString("BodyItems")
+            val bodyItem:String = arguments!!.getString("BodyItems")!!
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                view.detailsBody.setText(
-                    Html.fromHtml(
-                        bodyItem,
-                        Html.FROM_HTML_MODE_COMPACT
-                    )
-                );
-            } else {
-               // view.detailsBody.setText(Html.fromHtml(bodyItem));
+//            val toBeSearched = "<title>"
+//            val ix = bodyItem.IndexOf(toBeSearched)
+//
+//            if (ix != -1) {
+//                val code = myString.Substring(ix + toBeSearched.Length)
+//                // do something here
+//            }
+
+            if (arguments!!.getBoolean("FromPest") != null) {
+                Picasso.get().load("http://192.168.1.103:5000/static/tfOutput.jpg").fit()
+                    .centerInside().error(R.mipmap.mainlogo).into(view.imageDetected)
+                Log.e("From","Pest")
+            }else{
+                Picasso.get().load(R.mipmap.mainlogo).fit()
+                    .centerInside().error(R.mipmap.mainlogo).into(view.imageDetected)
+                Log.e("From","Other")
             }
-            Picasso.get().load("http://192.168.1.103:5000/static/tfOutput.jpg").fit().centerInside().into(view.imageDetected)
             view.myWebView.loadData(bodyItem, "text/html", "UTF-8");
         }
 

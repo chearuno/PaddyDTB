@@ -108,6 +108,117 @@ class Identification : Fragment() {
                     progressDialog.setMessage("Uploading..  " + progress.toInt() + "%")
                 }
         }
+
+        view.button_identify_disease.setOnClickListener {
+
+
+            val progressDialog = ProgressDialog(activity)
+            progressDialog.setTitle("Uploading...")
+            progressDialog.show()
+            progressDialog.setCancelable(false)
+
+
+            val imageId = UUID.randomUUID().toString()
+            val imagename = imageId + ".jpg"
+
+            val ref = storageReference.child("images/$imagename")
+
+
+            ref.putFile(uri).addOnSuccessListener {
+                ref.downloadUrl.addOnSuccessListener { uri ->
+                    Log.e(
+                        "URL",
+                        "onSuccess: uri= $uri"
+                    )
+                    progressDialog.dismiss()
+                    Toast.makeText(activity, "Image Uploaded", Toast.LENGTH_SHORT).show()
+                    detectdiseaseImage(uri.toString())
+                }
+            }
+                .addOnFailureListener { e ->
+                    progressDialog.dismiss()
+                    Toast.makeText(activity, "Image Upload Failed " + e.message, Toast.LENGTH_SHORT).show()
+                }
+                .addOnProgressListener { taskSnapshot ->
+                    val progress = 100.0 * taskSnapshot.bytesTransferred / taskSnapshot
+                        .totalByteCount
+                    progressDialog.setMessage("Uploading..  " + progress.toInt() + "%")
+                }
+        }
+
+        view.button_identify_weed.setOnClickListener {
+
+
+            val progressDialog = ProgressDialog(activity)
+            progressDialog.setTitle("Uploading...")
+            progressDialog.show()
+            progressDialog.setCancelable(false)
+
+
+            val imageId = UUID.randomUUID().toString()
+            val imagename = imageId + ".jpg"
+
+            val ref = storageReference.child("images/$imagename")
+
+
+            ref.putFile(uri).addOnSuccessListener {
+                ref.downloadUrl.addOnSuccessListener { uri ->
+                    Log.e(
+                        "URL",
+                        "onSuccess: uri= $uri"
+                    )
+                    progressDialog.dismiss()
+                    Toast.makeText(activity, "Image Uploaded", Toast.LENGTH_SHORT).show()
+                    detectWeedImage(uri.toString())
+                }
+            }
+                .addOnFailureListener { e ->
+                    progressDialog.dismiss()
+                    Toast.makeText(activity, "Image Upload Failed " + e.message, Toast.LENGTH_SHORT).show()
+                }
+                .addOnProgressListener { taskSnapshot ->
+                    val progress = 100.0 * taskSnapshot.bytesTransferred / taskSnapshot
+                        .totalByteCount
+                    progressDialog.setMessage("Uploading..  " + progress.toInt() + "%")
+                }
+        }
+        view.button_identify_deficiency.setOnClickListener {
+
+
+            val progressDialog = ProgressDialog(activity)
+            progressDialog.setTitle("Uploading...")
+            progressDialog.show()
+            progressDialog.setCancelable(false)
+
+
+            val imageId = UUID.randomUUID().toString()
+            val imagename = imageId + ".jpg"
+
+            val ref = storageReference.child("images/$imagename")
+
+
+            ref.putFile(uri).addOnSuccessListener {
+                ref.downloadUrl.addOnSuccessListener { uri ->
+                    Log.e(
+                        "URL",
+                        "onSuccess: uri= $uri"
+                    )
+                    progressDialog.dismiss()
+                    Toast.makeText(activity, "Image Uploaded", Toast.LENGTH_SHORT).show()
+                    detectDeficiencyImage(uri.toString())
+                }
+            }
+                .addOnFailureListener { e ->
+                    progressDialog.dismiss()
+                    Toast.makeText(activity, "Image Upload Failed " + e.message, Toast.LENGTH_SHORT).show()
+                }
+                .addOnProgressListener { taskSnapshot ->
+                    val progress = 100.0 * taskSnapshot.bytesTransferred / taskSnapshot
+                        .totalByteCount
+                    progressDialog.setMessage("Uploading..  " + progress.toInt() + "%")
+                }
+        }
+
         return view
     }
 
@@ -115,10 +226,55 @@ class Identification : Fragment() {
         activity?.runOnUiThread {
             if (kProgressHUD != null) {
                 if (!kProgressHUD!!.isShowing) {
+                    kProgressHUD!!.setLabel("Detecting Pest")
                     kProgressHUD!!.show();
                 }
             }
             WebService.sendImage(context!!, urlImage) { status, message, body ->
+
+                if (status) {
+                    if (kProgressHUD != null) {
+                        if (kProgressHUD!!.isShowing) {
+                            kProgressHUD!!.dismiss()
+                        }
+                    }
+                    // val jsonData = body
+                    val arguments = Bundle()
+                    arguments.putString("BodyItems", body)
+                    arguments.putBoolean("FromPest", true)
+                    val tempFragment = Details()
+                    tempFragment.arguments = arguments
+
+                    fragmentManager!!.beginTransaction().replace(R.id.flContent, tempFragment)
+                        .addToBackStack(null)
+                        .commit()
+                } else {
+                    if (kProgressHUD != null) {
+                        if (kProgressHUD!!.isShowing) {
+                            kProgressHUD!!.dismiss()
+                        }
+                    }
+
+                    activity!!.runOnUiThread(Runnable {
+                        Toast.makeText(activity, "Something Went Wrong. Please Try again", Toast.LENGTH_SHORT).show()
+                    })
+
+                }
+
+            }
+        }
+    }
+
+
+    private fun detectdiseaseImage(urlImage: String) {
+        activity?.runOnUiThread {
+            if (kProgressHUD != null) {
+                if (!kProgressHUD!!.isShowing) {
+                    kProgressHUD!!.setLabel("Detecting Disease")
+                    kProgressHUD!!.show();
+                }
+            }
+            WebService.sendDiseaseImage(context!!, urlImage) { status, message, body ->
 
                 if (status) {
                     if (kProgressHUD != null) {
@@ -152,5 +308,88 @@ class Identification : Fragment() {
         }
     }
 
+    private fun detectWeedImage(urlImage: String) {
+        activity?.runOnUiThread {
+            if (kProgressHUD != null) {
+                if (!kProgressHUD!!.isShowing) {
+                    kProgressHUD!!.setLabel("Detecting Weed")
+                    kProgressHUD!!.show();
+                }
+            }
+            WebService.sendWeedImage(context!!, urlImage) { status, message, body ->
+
+                if (status) {
+                    if (kProgressHUD != null) {
+                        if (kProgressHUD!!.isShowing) {
+                            kProgressHUD!!.dismiss()
+                        }
+                    }
+                    // val jsonData = body
+                    val arguments = Bundle()
+                    arguments.putString("BodyItems", body)
+                    val tempFragment = Details()
+                    tempFragment.arguments = arguments
+
+                    fragmentManager!!.beginTransaction().replace(R.id.flContent, tempFragment)
+                        .addToBackStack(null)
+                        .commit()
+                } else {
+                    if (kProgressHUD != null) {
+                        if (kProgressHUD!!.isShowing) {
+                            kProgressHUD!!.dismiss()
+                        }
+                    }
+
+                    activity!!.runOnUiThread(Runnable {
+                        Toast.makeText(activity, "Something Went Wrong. Please Try again", Toast.LENGTH_SHORT).show()
+                    })
+
+                }
+
+            }
+        }
+    }
+
+    private fun detectDeficiencyImage(urlImage: String) {
+        activity?.runOnUiThread {
+            if (kProgressHUD != null) {
+                if (!kProgressHUD!!.isShowing) {
+                    kProgressHUD!!.setLabel("Detecting Deficiency")
+                    kProgressHUD!!.show();
+                }
+            }
+            WebService.sendDificiencyImage(context!!, urlImage) { status, message, body ->
+
+                if (status) {
+                    if (kProgressHUD != null) {
+                        if (kProgressHUD!!.isShowing) {
+                            kProgressHUD!!.dismiss()
+                        }
+                    }
+                    // val jsonData = body
+                    val arguments = Bundle()
+                    arguments.putString("BodyItems", body)
+                    val tempFragment = Details()
+                    tempFragment.arguments = arguments
+
+                    fragmentManager!!.beginTransaction().replace(R.id.flContent, tempFragment)
+                        .addToBackStack(null)
+                        .commit()
+                } else {
+                    if (kProgressHUD != null) {
+                        if (kProgressHUD!!.isShowing) {
+                            kProgressHUD!!.dismiss()
+                        }
+                    }
+
+                    activity!!.runOnUiThread(Runnable {
+                        Toast.makeText(activity, "Something Went Wrong. Please Try again", Toast.LENGTH_SHORT).show()
+                    })
+
+                }
+
+            }
+        }
+    }
 
 }

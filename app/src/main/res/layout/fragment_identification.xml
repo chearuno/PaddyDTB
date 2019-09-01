@@ -27,7 +27,7 @@
                     android:layout_marginEnd="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="20dp"
-                    android:text="Make sure the image is good in focous"
+                    android:text="Make sure the image is good in focus"
                     android:textAlignment="center"
                     android:textColor="#10AFA0"
                     android:textSize="24sp" />

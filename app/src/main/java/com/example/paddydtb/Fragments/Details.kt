@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.fragment_details.view.*
 
 class Details : Fragment() {
 
+    var code = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,24 +34,31 @@ class Details : Fragment() {
         if (arguments!!.getString("BodyItems") != null) {
             val bodyItem:String = arguments!!.getString("BodyItems")!!
 
-//            val toBeSearched = "<title>"
-//            val ix = bodyItem.IndexOf(toBeSearched)
-//
-//            if (ix != -1) {
-//                val code = myString.Substring(ix + toBeSearched.Length)
-//                // do something here
-//            }
+            val ix = bodyItem.indexOf("<title>")+ 7
+            val xx = bodyItem.indexOf("</title>")
 
-            if (arguments!!.getBoolean("FromPest") != null) {
+
+            for (i in ix..(xx-1)){
+                code = code+ bodyItem.get(i).toString()
+            }
+            Log.e("String",code)
+
+            if (code != ""){
+
+                view.result_page_title.text = "Result Page - ${code}"
+            }
+            view.myWebView.loadData(bodyItem, "text/html", "UTF-8")
+
+            if (arguments!!.getBoolean("FromPest")) {
                 Picasso.get().load("http://192.168.1.103:5000/static/tfOutput.jpg").fit()
                     .centerInside().error(R.mipmap.mainlogo).into(view.imageDetected)
                 Log.e("From","Pest")
             }else{
-                Picasso.get().load(R.mipmap.mainlogo).fit()
-                    .centerInside().error(R.mipmap.mainlogo).into(view.imageDetected)
-                Log.e("From","Other")
+                view.imageDetected.visibility = View.GONE
+//                Picasso.get().load(R.mipmap.mainlogo).fit()
+//                    .centerInside().error(R.mipmap.mainlogo).into(view.imageDetected)
+//                Log.e("From","Other")
             }
-            view.myWebView.loadData(bodyItem, "text/html", "UTF-8");
         }
 
         view.imageDetected.setOnClickListener {

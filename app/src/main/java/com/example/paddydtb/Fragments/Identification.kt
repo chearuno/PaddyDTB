@@ -241,7 +241,7 @@ class Identification : Fragment() {
                     // val jsonData = body
                     val arguments = Bundle()
                     arguments.putString("BodyItems", body)
-                    arguments.putBoolean("FromPest", true)
+                    arguments.putBoolean("FromPest", false)
                     val tempFragment = Details()
                     tempFragment.arguments = arguments
 
@@ -285,6 +285,7 @@ class Identification : Fragment() {
                     // val jsonData = body
                     val arguments = Bundle()
                     arguments.putString("BodyItems", body)
+                    arguments.putBoolean("FromPest", false)
                     val tempFragment = Details()
                     tempFragment.arguments = arguments
 
@@ -327,6 +328,7 @@ class Identification : Fragment() {
                     // val jsonData = body
                     val arguments = Bundle()
                     arguments.putString("BodyItems", body)
+                    arguments.putBoolean("FromPest", false)
                     val tempFragment = Details()
                     tempFragment.arguments = arguments
 
@@ -369,6 +371,7 @@ class Identification : Fragment() {
                     // val jsonData = body
                     val arguments = Bundle()
                     arguments.putString("BodyItems", body)
+                    arguments.putBoolean("FromPest", false)
                     val tempFragment = Details()
                     tempFragment.arguments = arguments
 

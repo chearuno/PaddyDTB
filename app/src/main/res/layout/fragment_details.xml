@@ -7,6 +7,7 @@
               android:orientation="vertical">
 
     <TextView
+            android:id="@+id/result_page_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -15,7 +16,7 @@
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="10dp"
-            android:text="Result Page"
+            android:text="Result Page - Nothing Detected"
             android:textAlignment="center"
             android:textColor="#10AFA0"
             android:textSize="24sp" />
@@ -33,6 +34,14 @@
             <WebView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" android:id="@+id/myWebView"/>
+
+            <Button
+                    android:id="@+id/button_more_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@xml/buttonstyle"
+                    android:text="More Details" />
         </LinearLayout>
     </ScrollView>
 

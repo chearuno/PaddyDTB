@@ -53,49 +53,7 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="5dp"
                     android:background="@xml/buttonstyle"
-                    android:text="Identify Pest"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-
-            <Button
-                    android:id="@+id/button_identify_disease"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginBottom="5dp"
-                    android:background="@xml/buttonstyle"
-                    android:text="Identify Disease"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-
-            <Button
-                    android:id="@+id/button_identify_weed"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginBottom="5dp"
-                    android:background="@xml/buttonstyle"
-                    android:text="Identify Weed"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-
-            <Button
-                    android:id="@+id/button_identify_deficiency"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginBottom="20dp"
-                    android:background="@xml/buttonstyle"
-                    android:text="Identify Deficiency"
+                    android:text="Identify Image"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
         </LinearLayout>

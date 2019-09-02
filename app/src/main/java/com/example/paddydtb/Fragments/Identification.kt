@@ -1,6 +1,8 @@
 package com.example.paddydtb.Fragments
 
+import android.app.AlertDialog
 import android.app.ProgressDialog
+import android.content.DialogInterface
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -28,6 +30,9 @@ class Identification : Fragment() {
     internal lateinit var db: FirebaseFirestore
     internal lateinit var storage: FirebaseStorage
     internal lateinit var storageReference: StorageReference
+    var imgPath = ""
+    lateinit var uri: Uri
+    private var selection = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,8 +52,7 @@ class Identification : Fragment() {
             .setAnimationSpeed(2)
             .setDimAmount(0.5f)
 
-        val imgPath = arguments!!.getString("FilePath")
-        var uri: Uri
+        imgPath = arguments!!.getString("FilePath")
         uri = Uri.parse(imgPath)
 
         try {
@@ -74,17 +78,41 @@ class Identification : Fragment() {
 
         view.button_identify.setOnClickListener {
 
+            val items = arrayOf<CharSequence>(
+                "Detected as Pest",
+                "Detected as Weed",
+                "Detected as Disease",
+                "Detected as Deficiency"
+            )
 
-            val progressDialog = ProgressDialog(activity)
-            progressDialog.setTitle("Uploading...")
-            progressDialog.show()
-            progressDialog.setCancelable(false)
+
+            val builder = AlertDialog.Builder(activity)
+            builder.setTitle("Select Detection Methord")
+
+            builder.setItems(items) { dialog, item ->
+                selectType(items[item].toString())
+
+                dialog.dismiss()
+            }
+            builder.show()
 
 
-            val imageId = UUID.randomUUID().toString()
-            val imagename = imageId + ".jpg"
+        }
 
-            val ref = storageReference.child("images/$imagename")
+
+        return view
+    }
+
+    private fun selectType(seleced: String) {
+        val progressDialog = ProgressDialog(activity)
+        progressDialog.setTitle("Uploading...")
+        progressDialog.show()
+        progressDialog.setCancelable(false)
+        val imageId = UUID.randomUUID().toString()
+        val imagename = imageId + ".jpg"
+
+        val ref = storageReference.child("images/$imagename")
+        if (seleced == "Detected as Pest") {
 
 
             ref.putFile(uri).addOnSuccessListener {
@@ -100,30 +128,15 @@ class Identification : Fragment() {
             }
                 .addOnFailureListener { e ->
                     progressDialog.dismiss()
-                    Toast.makeText(activity, "Image Upload Failed " + e.message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, "Image Upload Failed " + e.message, Toast.LENGTH_SHORT)
+                        .show()
                 }
                 .addOnProgressListener { taskSnapshot ->
                     val progress = 100.0 * taskSnapshot.bytesTransferred / taskSnapshot
                         .totalByteCount
                     progressDialog.setMessage("Uploading..  " + progress.toInt() + "%")
                 }
-        }
-
-        view.button_identify_disease.setOnClickListener {
-
-
-            val progressDialog = ProgressDialog(activity)
-            progressDialog.setTitle("Uploading...")
-            progressDialog.show()
-            progressDialog.setCancelable(false)
-
-
-            val imageId = UUID.randomUUID().toString()
-            val imagename = imageId + ".jpg"
-
-            val ref = storageReference.child("images/$imagename")
-
-
+        } else if (seleced == "Detected as Disease") {
             ref.putFile(uri).addOnSuccessListener {
                 ref.downloadUrl.addOnSuccessListener { uri ->
                     Log.e(
@@ -137,28 +150,15 @@ class Identification : Fragment() {
             }
                 .addOnFailureListener { e ->
                     progressDialog.dismiss()
-                    Toast.makeText(activity, "Image Upload Failed " + e.message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, "Image Upload Failed " + e.message, Toast.LENGTH_SHORT)
+                        .show()
                 }
                 .addOnProgressListener { taskSnapshot ->
                     val progress = 100.0 * taskSnapshot.bytesTransferred / taskSnapshot
                         .totalByteCount
                     progressDialog.setMessage("Uploading..  " + progress.toInt() + "%")
                 }
-        }
-
-        view.button_identify_weed.setOnClickListener {
-
-
-            val progressDialog = ProgressDialog(activity)
-            progressDialog.setTitle("Uploading...")
-            progressDialog.show()
-            progressDialog.setCancelable(false)
-
-
-            val imageId = UUID.randomUUID().toString()
-            val imagename = imageId + ".jpg"
-
-            val ref = storageReference.child("images/$imagename")
+        } else if (seleced == "Detected as Weed") {
 
 
             ref.putFile(uri).addOnSuccessListener {
@@ -174,29 +174,15 @@ class Identification : Fragment() {
             }
                 .addOnFailureListener { e ->
                     progressDialog.dismiss()
-                    Toast.makeText(activity, "Image Upload Failed " + e.message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, "Image Upload Failed " + e.message, Toast.LENGTH_SHORT)
+                        .show()
                 }
                 .addOnProgressListener { taskSnapshot ->
                     val progress = 100.0 * taskSnapshot.bytesTransferred / taskSnapshot
                         .totalByteCount
                     progressDialog.setMessage("Uploading..  " + progress.toInt() + "%")
                 }
-        }
-        view.button_identify_deficiency.setOnClickListener {
-
-
-            val progressDialog = ProgressDialog(activity)
-            progressDialog.setTitle("Uploading...")
-            progressDialog.show()
-            progressDialog.setCancelable(false)
-
-
-            val imageId = UUID.randomUUID().toString()
-            val imagename = imageId + ".jpg"
-
-            val ref = storageReference.child("images/$imagename")
-
-
+        } else if (seleced == "Detected as Deficiency") {
             ref.putFile(uri).addOnSuccessListener {
                 ref.downloadUrl.addOnSuccessListener { uri ->
                     Log.e(
@@ -210,7 +196,8 @@ class Identification : Fragment() {
             }
                 .addOnFailureListener { e ->
                     progressDialog.dismiss()
-                    Toast.makeText(activity, "Image Upload Failed " + e.message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, "Image Upload Failed " + e.message, Toast.LENGTH_SHORT)
+                        .show()
                 }
                 .addOnProgressListener { taskSnapshot ->
                     val progress = 100.0 * taskSnapshot.bytesTransferred / taskSnapshot
@@ -219,7 +206,6 @@ class Identification : Fragment() {
                 }
         }
 
-        return view
     }
 
     private fun detectImage(urlImage: String) {
@@ -242,6 +228,7 @@ class Identification : Fragment() {
                     val arguments = Bundle()
                     arguments.putString("BodyItems", body)
                     arguments.putBoolean("FromPest", true)
+                    arguments.putString("imageURI", imgPath)
                     val tempFragment = Details()
                     tempFragment.arguments = arguments
 
@@ -256,7 +243,11 @@ class Identification : Fragment() {
                     }
 
                     activity!!.runOnUiThread(Runnable {
-                        Toast.makeText(activity, "Something Went Wrong. Please Try again", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            activity,
+                            "Something Went Wrong. Please Try again",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     })
 
                 }
@@ -284,8 +275,9 @@ class Identification : Fragment() {
                     }
                     // val jsonData = body
                     val arguments = Bundle()
-                    arguments.putString("BodyItems1", body)
-                    arguments.putBoolean("FromPest1", false)
+                    arguments.putString("BodyItems", body)
+                    arguments.putBoolean("FromPest", false)
+                    arguments.putString("imageURI", imgPath)
                     val tempFragment = Details()
                     tempFragment.arguments = arguments
 
@@ -300,7 +292,11 @@ class Identification : Fragment() {
                     }
 
                     activity!!.runOnUiThread(Runnable {
-                        Toast.makeText(activity, "Something Went Wrong. Please Try again", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            activity,
+                            "Something Went Wrong. Please Try again",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     })
 
                 }
@@ -329,6 +325,7 @@ class Identification : Fragment() {
                     val arguments = Bundle()
                     arguments.putString("BodyItems", body)
                     arguments.putBoolean("FromPest", false)
+                    arguments.putString("imageURI", imgPath)
                     val tempFragment = Details()
                     tempFragment.arguments = arguments
 
@@ -343,7 +340,11 @@ class Identification : Fragment() {
                     }
 
                     activity!!.runOnUiThread(Runnable {
-                        Toast.makeText(activity, "Something Went Wrong. Please Try again", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            activity,
+                            "Something Went Wrong. Please Try again",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     })
 
                 }
@@ -372,6 +373,7 @@ class Identification : Fragment() {
                     val arguments = Bundle()
                     arguments.putString("BodyItems", body)
                     arguments.putBoolean("FromPest", false)
+                    arguments.putString("imageURI", imgPath)
                     val tempFragment = Details()
                     tempFragment.arguments = arguments
 
@@ -386,7 +388,11 @@ class Identification : Fragment() {
                     }
 
                     activity!!.runOnUiThread(Runnable {
-                        Toast.makeText(activity, "Something Went Wrong. Please Try again", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            activity,
+                            "Something Went Wrong. Please Try again",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     })
 
                 }

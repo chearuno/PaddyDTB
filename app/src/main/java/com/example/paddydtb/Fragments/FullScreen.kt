@@ -20,7 +20,7 @@ class FullScreen : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,7 +29,6 @@ class FullScreen : Fragment() {
         val view: View = inflater.inflate(R.layout.fragment_fullscreen, container, false)
 
         imageUri = arguments!!.getString("imageURI")
-        Log.d("111", imageUri)
 
 
         var uri: Uri

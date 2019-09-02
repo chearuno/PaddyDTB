@@ -14,7 +14,7 @@ object WebService {
 
     val NETWORK_ERROR = "Network Error. Please check your network connection."
     val INVALID_RESPONSE = "An Invalid Response Received."
-    val webURL = "http://192.168.8.100:5000/"
+    val webURL = "http://192.168.1.103:5000/"
 
     public fun sendImage(
         context: Context, urlImage: String,

@@ -50,7 +50,8 @@ class FindNow : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view: View = inflater.inflate(com.example.paddydtb.R.layout.fragment_findnow, container, false)
+        val view: View =
+            inflater.inflate(com.example.paddydtb.R.layout.fragment_findnow, container, false)
 
         view.button_capure_now.setOnClickListener {
             dispatchTakePictureIntent()
@@ -65,8 +66,13 @@ class FindNow : Fragment() {
             startActivityForResult(i, RESULT_LOAD_IMAGE)
         }
         view.button_live.setOnClickListener {
-            val intent = Intent(context, CameraActivity::class.java)
-            startActivity(intent)
+            //            val intent = Intent(context, CameraActivity::class.java)
+//            startActivity(intent)
+            val launchIntent = context?.getPackageManager()
+                ?.getLaunchIntentForPackage("com.example.android.paddydtblive");
+            if (launchIntent != null) {
+                startActivity(launchIntent);//null pointer check in case package name was not found
+            }
 
         }
 
@@ -90,7 +96,8 @@ class FindNow : Fragment() {
                 val tempFragment = Identification()
                 tempFragment.arguments = arguments
 
-                fragmentManager!!.beginTransaction().replace(R.id.flContent, tempFragment).addToBackStack(null).commit()
+                fragmentManager!!.beginTransaction().replace(R.id.flContent, tempFragment)
+                    .addToBackStack(null).commit()
             } catch (e: IOException) {
                 e.printStackTrace()
             }
@@ -98,7 +105,10 @@ class FindNow : Fragment() {
 
             try {
 
-                val bitmap = MediaStore.Images.Media.getBitmap(activity!!.contentResolver, Uri.parse(mCurrentPhotoPath))
+                val bitmap = MediaStore.Images.Media.getBitmap(
+                    activity!!.contentResolver,
+                    Uri.parse(mCurrentPhotoPath)
+                )
                 //image_main.setImageBitmap(bitmap)
 
                 val arguments = Bundle()
@@ -107,7 +117,8 @@ class FindNow : Fragment() {
                 val tempFragment = Identification()
                 tempFragment.arguments = arguments
 
-                fragmentManager!!.beginTransaction().replace(R.id.flContent, tempFragment).addToBackStack(null).commit()
+                fragmentManager!!.beginTransaction().replace(R.id.flContent, tempFragment)
+                    .addToBackStack(null).commit()
             } catch (e: IOException) {
                 e.printStackTrace()
             }
@@ -116,7 +127,11 @@ class FindNow : Fragment() {
 
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         if (requestCode == 0) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
                 && grantResults[1] == PackageManager.PERMISSION_GRANTED
